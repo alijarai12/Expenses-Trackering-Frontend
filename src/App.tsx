@@ -2,8 +2,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Expenses from "./components/Expenses";
 import ExpensesForm from "./components/ExpensesForm";
 import FormUpdateWrapper from "./components/FormUpdateWrapper";
+import { useState } from "react";
+import Expense from "./components/Expnese";
 
 const App = () => {
+  const [formdata, setFormData] = useState<Expense>();
   return (
     <BrowserRouter>
       <Routes>
@@ -11,8 +14,8 @@ const App = () => {
           path="/"
           element={
             <>
-              <ExpensesForm />
-              <Expenses />
+              <ExpensesForm onSumbitForm={(data) => setFormData(data)} />
+              <Expenses formdata={formdata} />
             </>
           }
         />

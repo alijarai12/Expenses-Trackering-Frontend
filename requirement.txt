@@ -2,6 +2,9 @@ install the node version latest
 node v22.14.0
 install the given package "
 
+npm create vite //project name
+react 
+typescript
 
     "@hookform/resolvers": "^4.1.2",
     "axios": "^1.7.9",

@@ -11,10 +11,10 @@ interface Expense {
 }
 
 interface Props {
-  formData?: boolean | null;
+  formdata?: Expense | null;
 }
 
-const Expenses = ({ formData }: Props) => {
+const Expenses = ({ formdata }: Props) => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [error, setError] = useState("");
 
@@ -23,7 +23,7 @@ const Expenses = ({ formData }: Props) => {
       .get<Expense[]>("http://127.0.0.1:8000/api/expenses/")
       .then((res) => setExpenses(res.data))
       .catch((error) => setError(error.message));
-  }, [formData]);
+  }, [formdata]);
 
   const handleExpenseDelete = (id: number) => {
     const originalExpense = [...expenses];
