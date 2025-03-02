@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 interface Props {
   id: number;
@@ -46,7 +47,7 @@ const FormUpdate = ({ id }: Props) => {
             };
 
             axios
-              .put(`http://127.0.0.1:8000/api/expenses/${id}/`, formattedData, {
+              .put(`${API_BASE_URL}/expenses/${id}/`, formattedData, {
                 headers: { "Content-Type": "application/json" },
               })
               .then(() => {

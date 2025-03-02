@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useState } from "react";
 import Expense from "./Expnese";
+import API_BASE_URL from "../config"; 
+
 const schema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters").max(75),
   currency: z.number().min(0.01, "Amount must be at least 0.01").max(100000),
@@ -51,7 +53,7 @@ const ExpensesForm = ({ onSumbitForm }: Props) => {
             }
             axios
               .post<ExpenseFormData>(
-                "http://127.0.0.1:8000/api/expenses/",
+                `${API_BASE_URL}/expenses/`,
                 formattedData
               )
               .catch((err) => setError(err.message));

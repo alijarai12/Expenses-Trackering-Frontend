@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import API_BASE_URL from "../config";
+
 
 interface Expense {
   id: number;
@@ -20,7 +22,7 @@ const Expenses = ({ formdata }: Props) => {
 
   useEffect(() => {
     axios
-      .get<Expense[]>("http://127.0.0.1:8000/api/expenses/")
+      .get<Expense[]>(`${API_BASE_URL}/expenses/`)
       .then((res) => setExpenses(res.data))
       .catch((error) => setError(error.message));
   }, [formdata]);
@@ -29,7 +31,7 @@ const Expenses = ({ formdata }: Props) => {
     const originalExpense = [...expenses];
     setExpenses(expenses.filter((e) => e.id !== id));
 
-    axios.delete(`http://127.0.0.1:8000/api/expenses/${id}`).catch((err) => {
+    axios.delete(`${API_BASE_URL}/expenses/${id}`).catch((err) => {
       setError(err.message);
       setExpenses(originalExpense);
     });
