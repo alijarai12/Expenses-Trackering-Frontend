@@ -36,11 +36,18 @@ pipeline {
             }
         }
 
+        
+
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/alijarai12/Expenses-Trackering-Frontend.git'
+                script {
+                    sh 'git fetch --all'  // Fetch all branches
+                    sh 'git reset --hard origin/master'  // Ensure we are on the latest commit of the master branch
+                    git branch: 'master', url: 'https://github.com/alijarai12/Expenses-Trackering-Frontend.git'
+                }
             }
         }
+
 
 
         stage('Debug .env File') {
