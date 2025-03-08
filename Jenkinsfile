@@ -10,12 +10,6 @@ pipeline {
     }
 
     stages {
-
-        stage('Cleanup') {
-            steps {
-                cleanWs()
-            }
-        }
         
         stage('Setup Environment') {
             steps {
@@ -40,11 +34,20 @@ pipeline {
         }
 
 
-        stage('Dummy Stage 2') {
+        stage('Debug .env File') {
             steps {
-                echo 'Another dummy stage to confirm pipeline execution.'
+                sh '''
+                echo "Checking for .env file in the repository..."
+                if [ -f .env ]; then
+                  echo "Found .env file, printing contents..."
+                  cat .env
+                else
+                  echo ".env file not found"
+                fi
+                '''
             }
         }
+
         
         
         stage('Install Dependencies') {
