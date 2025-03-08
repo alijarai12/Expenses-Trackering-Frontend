@@ -33,17 +33,14 @@ pipeline {
         }
 
 
-         stage('Debug .env File') {
+        stage('Print .env content') {
             steps {
-                sh '''
-                echo "Checking for .env file in the repository..."
-                if [ -f .env ]; then
-                  echo "Found .env file, printing contents..."
-                  cat .env
-                else
-                  echo ".env file not found"
-                fi
-                '''
+                script {
+                    // Ensure .env file is readable
+                    sh 'chmod 644 .env'
+                    // Print the content of the .env file to the console log
+                    sh 'cat .env'
+                }
             }
         }
 
