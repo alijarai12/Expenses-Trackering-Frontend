@@ -32,17 +32,21 @@ pipeline {
             }
         }
 
-        stage('Debug .env File') {
+
+         stage('Debug .env File') {
             steps {
                 sh '''
                 echo "Checking for .env file in the repository..."
-                ls -lah .env*
-                
-                echo "Printing .env content:"
-                cat .env || echo ".env file not found"
+                if [ -f .env ]; then
+                  echo "Found .env file, printing contents..."
+                  cat .env
+                else
+                  echo ".env file not found"
+                fi
                 '''
             }
         }
+
         
         stage('Install Dependencies') {
             steps {
