@@ -33,17 +33,12 @@ pipeline {
         }
 
 
-        stage('Print .env content') {
+        stage('Dummy Stage 2') {
             steps {
-                script {
-                    // Ensure .env file is readable
-                    sh 'chmod 644 .env'
-                    // Print the content of the .env file to the console log
-                    sh 'cat .env'
-                }
+                echo 'Another dummy stage to confirm pipeline execution.'
             }
         }
-
+        
         
         stage('Install Dependencies') {
             steps {
