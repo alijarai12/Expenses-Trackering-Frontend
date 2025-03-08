@@ -10,15 +10,6 @@ pipeline {
     }
 
     stages {
-
-
-        
-        stage('Cleanup') {
-            steps {
-                cleanWs()
-            }
-        }
-
         
         stage('Setup Environment') {
             steps {
@@ -52,15 +43,12 @@ pipeline {
 
         stage('Debug .env File') {
             steps {
-                sh '''
-                echo "Checking for .env file in the repository..."
-                if [ -f .env ]; then
-                  echo "Found .env file, printing contents..."
-                  cat .env
-                else
-                  echo ".env file not found"
-                fi
-                '''
+                script {
+                    echo 'Listing files in the current workspace...'
+                    sh 'ls -l'  // List all files in the workspace
+                    echo 'Checking .env file contents...'
+                    sh 'cat .env'  // Output the .env file content to the Jenkins log for debugging
+                }
             }
         }
 
