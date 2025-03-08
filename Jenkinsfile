@@ -15,6 +15,7 @@ pipeline {
                 script {
                     // Install Node.js & npm (Only if using a Linux agent)
                     sh '''
+                    echo "Installing Node.js version ${NODE_VERSION}..."
                     curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
                     sudo apt install -y nodejs
                     npm install -g npm@${NPM_VERSION}
@@ -31,7 +32,6 @@ pipeline {
             }
         }
 
-        
         stage('Debug .env File') {
             steps {
                 sh '''
@@ -47,7 +47,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
+                echo "Removing node_modules and package-lock.json..."
                 rm -rf node_modules package-lock.json
+                
+                echo "Installing dependencies..."
                 npm install
                 '''
             }
@@ -55,25 +58,28 @@ pipeline {
 
         stage('Build Project') {
             steps {
-                sh 'npm run build'
+                sh '''
+                echo "Building project..."
+                npm run build
+                '''
             }
         }
 
-      stage('Deploy to Production') {
+        stage('Deploy to Production') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh-key', keyFileVariable: 'SSH_KEY')]) {
                     sh '''
                     # Deploy build files using rsync
+                    echo "Deploying build files to production server..."
                     rsync -avz --delete -e "ssh -i $SSH_KEY" ./dist/ ${DEPLOY_USER}@${DEPLOY_SERVER}:${DEPLOY_DIR}
 
                     # Restart Nginx on production server
+                    echo "Restarting Nginx on production server..."
                     ssh -i $SSH_KEY ${DEPLOY_USER}@${DEPLOY_SERVER} "sudo systemctl restart nginx"
                     '''
                 }
             }
         }
-      
-             
     }
 
     post {
