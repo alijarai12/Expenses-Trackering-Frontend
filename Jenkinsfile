@@ -10,6 +10,15 @@ pipeline {
     }
 
     stages {
+
+
+        
+        stage('Cleanup') {
+            steps {
+                cleanWs()
+            }
+        }
+
         
         stage('Setup Environment') {
             steps {
